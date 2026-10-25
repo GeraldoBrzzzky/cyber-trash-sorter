@@ -1,0 +1,24 @@
+{
+  "name": "cyber-trash-sorter",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeraldoBrzzzky/cyber-trash-sorter.git"
+  },
+  "keywords": ["game", "canvas", "cyberpunk", "recycling", "express"],
+  "type": "module",
+  "description": "Cyberpunk waste-sorting arcade game with sign-in, points and unlockable backgrounds",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "express": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Cyber Trash Sorter — Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/base.css" />
+<link rel="stylesheet" href="/css/game.css" />
+</head>
+<body>
+<div class="grid-bg"></div>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◈</span>
+      <div>
+        <strong>Cyber Trash Sorter</strong>
+        <small>waste protocol 2087</small>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="chip" id="user-chip">—</span>
+      <span class="chip points" id="points-chip">◈ 0</span>
+      <button class="btn-ghost" id="shop-btn">Toko</button>
+      <button class="btn-ghost" id="help-btn">Cara Main</button>
+      <button class="btn-ghost danger" id="logout-btn">Keluar</button>
+    </div>
+  </header>
+
+  <section class="arena">
+    <div class="stage" id="stage">
+      <canvas id="game" width="960" height="600" aria-label="Area permainan pemilahan sampah"></canvas>
+
+      <div class="hud hud-top">
+        <div class="stat"><span>SKOR</span><b id="hud-score">0</b></div>
+        <div class="stat"><span>KOMBO</span><b id="hud-combo">×1</b></div>
+        <div class="stat"><span>LEVEL</span><b id="hud-level">1</b></div>
+        <div class="stat shields"><span>SHIELD</span><b id="hud-shields">● ● ● ●</b></div>
+      </div>
+
+      <div class="hud hud-bottom">
+        <span id="hud-legend">← → / A D geser cart · P jeda · Klik &amp; seret di mobile</span>
+      </div>
+
+      <div class="screen" id="start-screen">
+        <div class="card inner">
+          <h2 id="start-title">Siap, <span class="neon" id="start-user">operator</span>?</h2>
+          <p class="lead">Sampah jatuh dari langit kota. Arahkan hover-cart supaya tiap barang
+            masuk ke bin yang benar. Benar = poin. Salah = shield hilang.</p>
+          <div class="legend-grid">
+            <div class="legend o"><b>♻</b><span>Organik</span><small>sisa makanan, daun, tulang</small></div>
+            <div class="legend a"><b>⬡</b><span>Anorganik</span><small>plastik, kaleng, kertas, kaca</small></div>
+            <div class="legend b"><b>☣</b><span>B3</span><small>baterai, oli, lampu TL, jarum</small></div>
+          </div>
+          <button class="btn-primary" id="play-btn">Mulai Bermain</button>
+          <p class="hint">Skor akhir otomatis jadi poin untuk membeli background.</p>
+        </div>
+      </div>
+
+      <div class="screen" id="pause-screen" hidden>
+        <div class="card inner">
+          <h2>Jeda</h2>
+          <button class="btn-primary" id="resume-btn">Lanjut Main</button>
+          <button class="btn-ghost wide" id="quit-btn">Akhiri Sesi</button>
+        </div>
+      </div>
+
+      <div class="screen" id="over-screen" hidden>
+        <div class="card inner">
+          <h2 class="glitch">Sesi Selesai</h2>
+          <div class="score-final"><span>SKOR</span><b id="over-score">0</b></div>
+          <div class="result-grid" id="over-stats"></div>
+          <p class="award" id="over-award"></p>
+          <div class="row">
+            <button class="btn-primary" id="again-btn">Main Lagi</button>
+            <button class="btn-pink" id="over-shop-btn">Belanja Background</button>
+          </div>
+          <p class="best" id="over-best"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="overlay" id="shop" hidden>
+  <div class="sheet card">
+    <div class="sheet-head">
+      <div>
+        <h2>Toko Background</h2>
+        <p class="sub">Tukar poin hasil memilah sampah dengan tema arena baru.</p>
+      </div>
+      <div class="wallet">
+        <span>Poin kamu</span>
+        <b id="shop-points">0</b>
+      </div>
+      <button class="close" data-close>✕</button>
+    </div>
+    <div class="shop-grid" id="shop-grid"></div>
+    <p class="hint" id="shop-msg"></p>
+  </div>
+</div>
+
+<div class="overlay" id="help" hidden>
+  <div class="sheet card">
+    <div class="sheet-head">
+      <div><h2>Cara Main</h2><p class="sub">Tiga bin, satu cart, sampah tak pernah berhenti jatuh.</p></div>
+      <button class="close" data-close>✕</button>
+    </div>
+    <ul class="help-list">
+      <li><b>Gerak</b> — tekan <kbd>←</kbd> <kbd>→</kbd> atau <kbd>A</kbd> <kbd>D</kbd>, atau geser mouse / sentuh layar. Cart ikut di bawah kursor.</li>
+      <li><b>Menerima</b> — sampah masuk ke bin yang berada persis di bawahnya. Organik (kiri), Anorganik (tengah), B3 (kanan).</li>
+      <li><b>Benar</b> — +10 poin dasar, naik +2 tiap level, dikali kombo ×1 sampai ×5. Item khusus (🔋 ⚗️) bernilai 2-3×.</li>
+      <li><b>Salah bin</b> — satu shield hilang dan kombo reset. Empat shield habis = sesi selesai.</li>
+      <li><b>Lolos</b> — sampah yang jatuh ke tanah tidak mengurangi shield, tapi reset kombo dan menurunkan akurasi.</li>
+      <li><b>Level</b> — tiap 12 sampah benar naik satu level: kecepatan jatuh dan jumlah sampah bertambah.</li>
+      <li><b>Jeda</b> — tekan <kbd>P</kbd> atau <kbd>Esc</kbd>.</li>
+      <li><b>Poin</b> — skor sesi ditransfer jadi saldo poin. Belikan di toko untuk membuka background arena.</li>
+    </ul>
+    <div class="row"><button class="btn-primary" data-close>Mengerti</button></div>
+  </div>
+</div>
+
+<script type="module" src="/js/play-page.js"></script>
+</body>
+</html>

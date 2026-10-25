@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cyber Trash Sorter — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/base.css" />
+<style>
+  main {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 420px);
+    gap: 48px;
+    align-items: center;
+    padding: 48px clamp(20px, 6vw, 84px);
+  }
+  .pitch h1 { font-size: clamp(34px, 6vw, 62px); line-height: 1.02; }
+  .pitch .kicker {
+    font: 600 13px var(--display);
+    letter-spacing: 0.34em;
+    color: var(--pink);
+    margin-bottom: 16px;
+  }
+  .pitch p { font-size: 17px; line-height: 1.6; color: #a9badf; max-width: 46ch; }
+  .rules { display: grid; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; }
+  .rules li { display: flex; gap: 12px; align-items: center; font-size: 15px; color: #c3d2f2; }
+  .rules b { font-size: 24px; width: 34px; text-align: center; filter: drop-shadow(0 0 8px currentColor); }
+  .r-o { color: var(--lime); } .r-a { color: var(--cyan); } .r-b { color: var(--pink); }
+  form h2 { font-size: 22px; margin-bottom: 6px; }
+  form .sub { font-size: 13px; color: var(--dim); margin: 0 0 20px; }
+  .demo-note {
+    margin-top: 18px; font-size: 12.5px; color: var(--dim); line-height: 1.5;
+    border-left: 2px solid var(--violet); padding-left: 12px;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px 48px; }
+    .pitch { order: -1; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<main>
+  <section class="pitch">
+    <p class="kicker">// WASTE PROTOCOL 2087</p>
+    <h1>CYBER<br /><span class="neon">TRASH SORTER</span></h1>
+    <p>
+      Sampah hujan dari langit kota. Gerakkan hover-cart dan arahkan tiap barang ke
+      bin yang benar: <b class="r-o">Organik</b>, <b class="r-a">Anorganik</b>, atau
+      <b class="r-b">B3</b>. Skor benar jadi poin — tukarkan dengan background permainan.
+    </p>
+    <ul class="rules">
+      <li><b class="r-o">♻</b> Organik: sisa makanan, daun, tulang, kulit buah</li>
+      <li><b class="r-a">⬡</b> Anorganik: plastik, kaleng, kertas, kardus, kaca</li>
+      <li><b class="r-b">☣</b> B3: baterai, oli, lampu TL, jarum medis, aerosol</li>
+    </ul>
+    <div class="demo-note">
+      Data tersimpan di SQLite lokal proyek ini. Tidak ada email atau data pribadi yang
+      diminta — cukup username dan password.
+    </div>
+  </section>
+
+  <section>
+    <form class="card" id="auth-form" autocomplete="on">
+      <div class="tabs" role="tablist">
+        <button type="button" id="tab-login" class="active" role="tab">Sign In</button>
+        <button type="button" id="tab-signup" role="tab">Daftar</button>
+      </div>
+      <h2 id="form-title">Masuk ke grid</h2>
+      <p class="sub" id="form-sub">Sign in dulu untuk mulai bermain.</p>
+
+      <div class="alert" id="alert" role="alert"></div>
+
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="neon_racer" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+
+      <button class="btn-primary" type="submit" id="submit-btn">Sign In</button>
+      <p class="hint" id="hint">Belum punya akun? Klik tab <b>Daftar</b>.</p>
+    </form>
+  </section>
+</main>
+<script type="module" src="/js/auth-page.js"></script>
+</body>
+</html>
